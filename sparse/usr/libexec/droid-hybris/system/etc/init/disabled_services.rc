@@ -64,3 +64,12 @@ service vold vold_HYBRIS_DISABLED
 service wificond wificond_HYBRIS_DISABLED
     disabled
     override
+service vendor.time_daemon vendor.time_daemon_HYBRIS_DISABLED
+    disabled
+    override
+service vendor.ims_rtp_daemon vendor.ims_rtp_daemon_HYBRIS_DISABLED
+    disabled
+    override
+service vendor.imsdatadaemon vendor.imsdatadaemon_HYBRIS_DISABLED
+    disabled
+    override
