@@ -74,8 +74,8 @@ Requires:
 - geoclue-provider-hybris
 
 # For FM radio on some QCOM devices
-- qt5-qtmultimedia-plugin-mediaservice-irisradio
-- jolla-mediaplayer-radio
+#- qt5-qtmultimedia-plugin-mediaservice-irisradio
+#- jolla-mediaplayer-radio
 
 # NFC for devices using Android 8 or newer as base
 #- nfcd-binder-plugin
