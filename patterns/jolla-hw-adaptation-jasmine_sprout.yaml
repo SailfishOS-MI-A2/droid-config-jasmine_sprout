@@ -22,6 +22,7 @@ Requires:
 
 # Telephony
 - ofono-ril-binder-plugin
+- dummy_netd
 
 # Bluetooth
 - bluebinder
