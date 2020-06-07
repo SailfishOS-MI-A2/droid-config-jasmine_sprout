@@ -1,0 +1,13 @@
+[Unit]
+Description=Fix BT calls
+After=pulseaudio.service
+Requires=pulseaudio.service
+​
+[Service]
+#ExecStartPre=/bin/sleep 5
+ExecStart=/bin/sh /usr/bin/droid/fixbtvoicecall.sh
+Tyepe=simple
+RemainAfterExit=true
+​
+[Install]
+WantedBy=user-session.target
