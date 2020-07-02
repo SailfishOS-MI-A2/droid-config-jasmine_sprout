@@ -6,10 +6,10 @@
 # SuggestedImageType: fs
 # SuggestedArchitecture: armv7hl
 
-user --name nemo --groups audio,input,video --password nemo
 timezone --utc UTC
 lang en_US.UTF-8
 keyboard us
+user --name nemo --groups audio,input,video --password nemo
 
 ### Commands from /tmp/sandbox/usr/share/ssu/kickstart/part/default
 part / --size 500 --ondisk sda --fstype=ext4
@@ -133,55 +133,67 @@ echo "SAILFISH_CUSTOMER=\"${CUSTOMERS//$'\n'/ }\""
 %pack
 export SSU_RELEASE_TYPE=release
 ### begin hybris
-pushd $IMG_OUT_DIR
+pushd $IMG_OUT_DIR # ./sfe-$DEVICE-$RELEASE_ID
 
 DEVICE=jasmine_sprout
+EXTRA_NAME=@EXTRA_NAME@
+DATE=$(date +"%Y%m%d") # 20191101
 
-VERSION_FILE=./os-release
-source $VERSION_FILE
+# Source release info e.g. VERSION
+source ./os-release
 
-# Locate rootfs tar.bz2 archive.
+# Locate rootfs .tar.bz2 archive
 for filename in *.tar.bz2; do
-    GEN_IMG_BASE=$(basename $filename .tar.bz2)
+	GEN_IMG_BASE=$(basename $filename .tar.bz2) # sfe-$DEVICE-3.2.0.12
 done
-
 if [ ! -e "$GEN_IMG_BASE.tar.bz2" ]; then
-    echo "No rootfs archive found, exiting ..."
-    exit 1
+	echo "[hybris-installer] No rootfs archive found, exiting..."
+	exit 1
 fi
 
-IMG_SIZE=$(du -h $GEN_IMG_BASE.tar.bz2 | cut -f1)
+# Make sure we have 'bc' to estimate rootfs size
+zypper --non-interactive in bc &> /dev/null
+
+# Roughly estimate the final rootfs size when installed
+IMAGE_SIZE=`echo "scale=2; 2.25 * $(du -h $GEN_IMG_BASE.tar.bz2 | cut -d'M' -f1)" | bc`
+echo "[hybris-installer] Estimated rootfs size when installed: ${IMAGE_SIZE}M"
 
 # Output filenames
-DST_IMG_BASE=$ID-$DEVICE-$SAILFISH_FLAVOUR-$VERSION_ID@EXTRA_NAME@
-DST_IMG=$DST_IMG_BASE.tar.bz2
+DST_IMG=sfos-rootfs.tar.bz2
+DST_PKG=$ID-$VERSION_ID-$DATE-$DEVICE$EXTRA_NAME # sailfishos-3.2.0.12-20191101-$DEVICE
 
-# Copy boot image, updater scripts and updater binary into updater .zip tree.
-mkdir -p updater/META-INF/com/google/android
+# Clone hybris-installer if not preset (e.g. porters-ci build env)
+if [ ! -d ../hybris/hybris-installer/ ]; then
+	git clone --depth 1 https://github.com/nebrassy/hybris-installer.git ../hybris/hybris-installer > /dev/null
+fi
 
-mv update-binary updater/META-INF/com/google/android/update-binary
-mv hybris-updater-script updater/META-INF/com/google/android/updater-script
-mv hybris-updater-unpack.sh updater/updater-unpack.sh
-mv hybris-boot.img updater/hybris-boot.img
-
-# Temporarily move the rootfs into the updater directory
+# Copy rootfs & hybris-installer scripts into updater .zip tree
+mkdir updater/
 mv $GEN_IMG_BASE.tar.bz2 updater/$DST_IMG
+cp -r ../hybris/hybris-installer/hybris-installer/* updater/
 
-# Update updater-script with image details.
-sed -i -e "s %VERSION% $VERSION_ID g" -e "s %IMAGE_FILE% $DST_IMG g" -e "s %IMAGE_SIZE% $IMG_SIZE g" updater/META-INF/com/google/android/updater-script
+# Update install script with image details
+LOS_VER="16.0"
+sed -e "s/%DEVICE%/$DEVICE/g" -e "s/%VERSION%/$VERSION/g" -e "s/%DATE%/$DATE/g" -e "s/%IMAGE_SIZE%/${IMAGE_SIZE}M/g" -e "s/%DST_PKG%/$DST_PKG/g" -e "s/%LOS_VER%/$LOS_VER/g" -i updater/META-INF/com/google/android/update-binary
 
-# pack updater .zip
-pushd updater
-zip -r ../$DST_IMG_BASE.zip META-INF/com/google/android/update-binary META-INF/com/google/android/updater-script updater-unpack.sh hybris-boot.img $DST_IMG_BASE.ks $DST_IMG
-popd # updater
+# Pack updater .zip
+pushd updater # sfe-$DEVICE-$RELEASE_ID/updater
+echo "[hybris-installer] Creating package '$DST_PKG.zip'..."
+zip -r ../$DST_PKG.zip .
+mv $DST_IMG ../$GEN_IMG_BASE.tar.bz2
+popd # sfe-$DEVICE-$RELEASE_ID
 
-# Move the rootfs back out of the updater directory
-mv updater/$DST_IMG $GEN_IMG_BASE.tar.bz2
+# Clean up working directory
+rm -rf updater/
 
-# Clean up updater .zip working directory.
-rm -rf updater
+# Calculate some checksums for the generated zip
+printf "[hybris-installer] Calculating MD5, SHA1 & SHA256 checksums for '$DST_PKG.zip'..."
+md5sum $DST_PKG.zip > $DST_PKG.zip.md5sum
+sha1sum $DST_PKG.zip > $DST_PKG.zip.sha1sum
+sha256sum $DST_PKG.zip > $DST_PKG.zip.sha256sum
+echo " DONE!"
 
-popd # $IMG_OUT_DIR
+popd # hadk source tree
 ### end hybris
 %end
 
