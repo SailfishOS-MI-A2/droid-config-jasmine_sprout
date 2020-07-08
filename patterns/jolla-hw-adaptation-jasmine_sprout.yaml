@@ -84,5 +84,7 @@ Requires:
 #- nfcd-binder-plugin
 #- jolla-settings-system-nfc
 
-Summary: Jolla HW Adaptation jasmine_sprout
+# For torch
+- jolla-settings-system-flashlight
 
+Summary: Jolla HW Adaptation jasmine_sprout
