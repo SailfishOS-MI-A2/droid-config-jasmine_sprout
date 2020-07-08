@@ -37,5 +37,15 @@ Requires:
 # to improve camera startup times and the like
 - mapplauncherd-booster-silica-qt5-media
 
+# Add pre-installed some jolla/sailfish apps
+- sailfish-office
+- jolla-calculator
+- jolla-email
+- jolla-notes
+- jolla-clock
+- jolla-mediaplayer
+- jolla-calendar
+- sailfish-weather
+
 Summary: Jolla Configuration jasmine_sprout
 
