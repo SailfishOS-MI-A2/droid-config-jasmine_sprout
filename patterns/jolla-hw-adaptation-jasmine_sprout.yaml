@@ -14,6 +14,7 @@ Requires:
 - droid-config-jasmine_sprout-flashing
 - droid-config-jasmine_sprout-bluez5
 - droid-hal-version-jasmine_sprout
+- droid-biometry-fp
 
 # Hybris packages
 - libhybris-libEGL
@@ -65,7 +66,9 @@ Requires:
 - rfkill
 
 # enable device lock and allow to select untrusted software
-- jolla-devicelock-daemon-encsfa
+#- jolla-devicelock-daemon-encsfa
+- sailfish-fpd-community 
+- sailfish-devicelock-fpd
 
 # Enable home encryption
 #- sailfish-device-encryption
