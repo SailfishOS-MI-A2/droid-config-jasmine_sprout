@@ -70,6 +70,9 @@ Requires:
 - sailfish-fpd-community 
 - sailfish-devicelock-fpd
 
+# This is needed on devices like the MI A2.
+- droid-fake-crypt
+
 # Enable home encryption
 #- sailfish-device-encryption
 
