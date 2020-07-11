@@ -47,5 +47,8 @@ Requires:
 - jolla-calendar
 - sailfish-weather
 
+# Add slot switching app
+- Switch-My-Slot
+
 Summary: Jolla Configuration jasmine_sprout
 
