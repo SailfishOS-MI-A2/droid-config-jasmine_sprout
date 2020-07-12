@@ -50,5 +50,8 @@ Requires:
 # Add slot switching app
 - Switch-My-Slot
 
+# Add ambience-holiday
+- ambience-holiday
+
 Summary: Jolla Configuration jasmine_sprout
 
