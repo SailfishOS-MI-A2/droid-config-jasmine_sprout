@@ -46,6 +46,7 @@ Requires:
 - jolla-calendar
 - sailfish-weather
 - sailfish-utilities
+- sailfish-filemanager
 
 # Add slot switching app
 - Switch-My-Slot
