@@ -25,3 +25,5 @@ Obsoletes: qt5-qpa-surfaceflinger-plugin
 %define ofono_disable_plugins bluez4,dun_gw_bluez4,hfp_ag_bluez4,hfp_bluez4,dun_gw_bluez5,hfp_bluez5
 
 %include droid-configs-device/droid-configs.inc
+%include patterns/patterns-sailfish-device-adaptation-jasmine_sprout.inc
+%include patterns/patterns-sailfish-device-configuration-jasmine_sprout.inc
