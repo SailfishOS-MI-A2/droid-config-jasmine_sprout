@@ -56,7 +56,7 @@ Requires: jolla-mediaplayer
 Requires: jolla-calendar
 Requires: sailfish-weather
 Requires: sailfish-utilities
-Requires: sailfish-filemanager
+#Requires: sailfish-filemanager
 
 # Add slot switching app
 #Requires: Switch-My-Slot
