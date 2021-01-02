@@ -59,10 +59,10 @@ Requires: sailfish-utilities
 #Requires: sailfish-filemanager
 
 # Add slot switching app
-#Requires: Switch-My-Slot
+Requires: Switch-My-Slot
 
 # Add ambience-holiday
-#Requires: ambience-holiday
+Requires: ambience-holiday
 
 %description -n patterns-sailfish-device-configuration-jasmine_sprout
 Pattern with packages for jasmine_sprout configurations
