@@ -25,7 +25,7 @@ Requires: dummy_netd
 Requires: bluebinder
 
 # Sensors
-Requires: hybris-libsensorfw-qt5
+Requires: hybris-libsensorfw-qt5-binder
 
 # Vibra
 Requires: ngfd-plugin-native-vibrator
