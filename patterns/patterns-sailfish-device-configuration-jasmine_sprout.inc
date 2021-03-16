@@ -23,6 +23,10 @@ Requires: busybox-static
 Requires: openssh-server
 Requires: zypper
 
+#psmisc and bash have been replaced by busybox. busybox pidof cause /etc/profile.d/developer-profile.sh failure on login. busybox bash/ash is limited and also cause some strange issues.
+Requires: gnu-bash
+Requires: psmisc-tools
+
 Requires: sailfish-content-graphics-z%{icon_res}
 
 # For multi-SIM devices
