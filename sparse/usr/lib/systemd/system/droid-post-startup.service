@@ -1,0 +1,11 @@
+[Unit]
+Description=Droid post-startup script
+After=bluetooth.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/droid/droid-post-startup.sh
+
+[Install]
+WantedBy=multi-user.target.wants
