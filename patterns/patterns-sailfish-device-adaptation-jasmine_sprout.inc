@@ -36,7 +36,7 @@ Requires: qt5-plugin-generic-evdev
 
 Requires: pulseaudio-modules-droid
 Requires: pulseaudio-modules-droid-hidl
-Requires: audiosystem-passthrough-dummy-af
+Requires: audiosystem-passthrough
 
 # for audio recording to work:
 Requires: qt5-qtmultimedia-plugin-mediaservice-gstmediacapture
